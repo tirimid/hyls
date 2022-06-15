@@ -25,13 +25,14 @@ int main(void)
     SDL_Init(SDL_INIT_EVERYTHING);
 
     struct gwindow     gwnd           = gwindow_create(800, 600, "hyls");
+    struct type_vec2   gwnd_size      = {(float)gwindow_size_x(&gwnd), (float)gwindow_size_y(&gwnd)};
     struct keyboard    kbd            = keyboard_create(16);
     struct map         map            = map_create(128);
     struct enemy_group enemies        = enemy_group_create(64);
     struct proj_group  friendly_projs = proj_group_create(128);
     struct proj_group  enemy_projs    = proj_group_create(512);
     struct choreo      choreo         = choreo_create(512);
-    
+
     struct player player =
     {
         .pos          = {0.0f, 0.0f},
@@ -103,8 +104,8 @@ int main(void)
         proj_group_update(&friendly_projs);
         proj_group_update(&enemy_projs);
         enemy_group_update(&enemies, player.pos, &enemy_projs, &friendly_projs);
-        player_update(&player, &map, &kbd, &enemies, &enemy_projs, &friendly_projs);
-        choreo_update(&choreo, &enemies, &enemy_projs, &friendly_projs, &player, &map);
+        player_update(&player, &map, &kbd, &enemies, &enemy_projs, &friendly_projs, gwnd_size);
+        choreo_update(&choreo, &enemies, &enemy_projs, &friendly_projs, &player, &map, gwnd_size);
 
         gwindow_clear_color(&gwnd, TYPE_COLOR_BLACK);
         map_draw(&map, &gwnd);

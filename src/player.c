@@ -4,7 +4,7 @@
 
 #include <math.h>
 
-void player_move(struct player *player, struct type_vec2 pos, const struct map *map)
+void player_move(struct player *player, struct type_vec2 pos, const struct map *map, struct type_vec2 wnd_size)
 {
     player->pos = pos;
     
@@ -40,10 +40,13 @@ void player_move(struct player *player, struct type_vec2 pos, const struct map *
             player->pv_vel = (struct type_vec2){0.0f, 0.0f};
         }
     }
+
+    struct type_vec2 border_offset = {player->rad, player->rad};
+    player->pos = type_vec2_clamp(player->pos, border_offset, type_vec2_sub(wnd_size, border_offset));
 }
 
 void player_update(struct player *player, const struct map *map, const struct keyboard *kbd, const struct enemy_group *enemies,
-                   const struct proj_group *enemy_projs, struct proj_group *friendly_projs)
+                   const struct proj_group *enemy_projs, struct proj_group *friendly_projs, struct type_vec2 wnd_size)
 {
     ++player->pv_shoot_tick_cntr;
     ++player->pv_inv_tick_cntr;
@@ -65,7 +68,7 @@ void player_update(struct player *player, const struct map *map, const struct ke
         float current_speed = keyboard_key_pressed(kbd, SDLK_LSHIFT) ? player->speed_slow : player->speed_normal;
         player->pv_vel      = type_vec2_add(player->pv_vel, type_vec2_mul_s(move_dir, current_speed));
         
-        player_move(player, type_vec2_add(player->pos, player->pv_vel), map);
+        player_move(player, type_vec2_add(player->pos, player->pv_vel), map, wnd_size);
         player->pv_vel = type_vec2_mul_s(player->pv_vel, 1.0f / player->friction);
 
         for (int i = 0; i < enemies->enemy_cnt; ++i)

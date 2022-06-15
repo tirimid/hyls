@@ -27,10 +27,10 @@ struct player
     struct type_vec2 respawn_pos;
 };
 
-void player_move(struct player *player, struct type_vec2 pos, const struct map *map);
+void player_move(struct player *player, struct type_vec2 pos, const struct map *map, struct type_vec2 wnd_size);
 
 void player_update(struct player *player, const struct map *map, const struct keyboard *kbd, const struct enemy_group *enemies,
-                   const struct proj_group *enemy_projs, struct proj_group *friendly_projs);
+                   const struct proj_group *enemy_projs, struct proj_group *friendly_projs, struct type_vec2 wnd_size);
 void player_draw(const struct player *player, struct gwindow *gwnd);
 
 #endif

@@ -1,5 +1,7 @@
 #include "choreo.h"
 
+#include "util.h"
+
 #include <stdio.h>
 
 struct choreo choreo_create(int max_event_cnt)
@@ -19,12 +21,12 @@ void choreo_destroy(struct choreo *choreo)
 }
 
 void choreo_update(struct choreo *choreo, struct enemy_group *enemies, struct proj_group *enemy_projs,
-                   struct proj_group *friendly_projs, struct player *player, struct map *map)
+                   struct proj_group *friendly_projs, struct player *player, struct map *map, struct type_vec2 wnd_size)
 {
     for (int i = 0; i < choreo->event_cnt; ++i)
     {
         struct choreo_event *event = &choreo->events[i];
-        if (choreo->elapsed_ticks > event->tick)
+        if (choreo->elapsed_ticks < event->tick)
             continue;
         
         switch(event->type)
@@ -42,9 +44,10 @@ void choreo_update(struct choreo *choreo, struct enemy_group *enemies, struct pr
             map_add_object(map, &event->ti.add_map_object);
             break;
         case CHOREO_EVENT_TYPE_MOVE_PLAYER:
-            player_move(player, event->ti.move_player, map);
+            player_move(player, event->ti.move_player, map, wnd_size);
             break;
         }
+        choreo_remove_event(choreo, event);
     }
     
     ++choreo->elapsed_ticks;
@@ -53,8 +56,20 @@ void choreo_update(struct choreo *choreo, struct enemy_group *enemies, struct pr
 /* events added late will immediately execute */
 void choreo_add_event(struct choreo *choreo, const struct choreo_event *event)
 {
+    if (choreo->event_cnt >= choreo->pv_max_event_cnt)
+        UTIL_PRINT_ERRORF("cannot add more than %d event to choreo", choreo->pv_max_event_cnt);
+
+    choreo->events[choreo->event_cnt] = *event;
+    ++choreo->event_cnt;
 }
 
 void choreo_remove_event(struct choreo *choreo, struct choreo_event *event)
 {
+    uintptr_t choreo_events_start = (uintptr_t)choreo->events;
+    uintptr_t choreo_events_end   = (uintptr_t)(choreo->events + choreo->event_cnt);
+    if ((uintptr_t)event < choreo_events_start || (uintptr_t)event >= choreo_events_end)
+        UTIL_PRINT_ERROR("tried removing nonexistant choreo event");
+
+    memmove(event, event + 1, choreo_events_end - (uintptr_t)(event + 1));
+    --choreo->event_cnt;
 }

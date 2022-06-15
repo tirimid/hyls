@@ -86,11 +86,42 @@ size_t tmdf_dict_max_size(const struct tmdf_dict *dict)
     return total_max_size;
 }
 
+enum token_type
+{
+    TOKEN_TYPE_COLON,       /* : */
+    TOKEN_TYPE_SEMICOLON,   /* ; */
+    TOKEN_TYPE_EQUALS,      /* = */
+    TOKEN_TYPE_BRACE_LEFT,  /* { */
+    TOKEN_TYPE_BRACE_RIGHT, /* } */
+
+    TOKEN_TYPE_KEYWORD_CATEGORY,
+    TOKEN_TYPE_KEYWORD_LIST,
+    TOKEN_TYPE_KEYWORD_ITEM,
+    TOKEN_TYPE_KEYWORD_NUM,
+    TOKEN_TYPE_KEYWORD_STR,
+
+    TOKEN_TYPE_LITERAL_STRING,
+    TOKEN_TYPE_LITERAL_NUMBER,
+    TOKEN_TYPE_IDENTIFIER,
+};
+
+struct token
+{
+    enum token_type type;
+    char *val;
+};
+
 void tmdf_parse_file(struct tmdf_dict *dst_dict, FILE *file)
 {
     fseek(file, 0, SEEK_END);
     size_t file_size = ftell(file);
     fseek(file, 0, SEEK_SET);
+
+    char *src      = malloc(file_size + 1);
+    src[file_size] = '\0';
+    fread(src, file_size, 1, file);
+
+    free(src);
 }
 
 const struct tmdf_category *tmdf_dict_category(const struct tmdf_dict *dict, const char *cat_key)

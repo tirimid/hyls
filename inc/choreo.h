@@ -44,7 +44,7 @@ struct choreo choreo_create(int max_event_cnt);
 void choreo_destroy(struct choreo *choreo);
 
 void choreo_update(struct choreo *choreo, struct enemy_group *enemies, struct proj_group *enemy_projs,
-                   struct proj_group *friendly_projs, struct player *player, struct map *map);
+                   struct proj_group *friendly_projs, struct player *player, struct map *map, struct type_vec2 wnd_size);
 
 void choreo_add_event(struct choreo *choreo, const struct choreo_event *event); /* events added late will immediately execute */
 void choreo_remove_event(struct choreo *choreo, struct choreo_event *event);
