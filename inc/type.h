@@ -1,3 +1,6 @@
+// Copyright (c) 2022 Dmitrii Fedorin
+// This code is licensed under an MIT license. Check LICENSE for details.
+
 #ifndef TYPE_H__
 #define TYPE_H__
 
@@ -31,7 +34,7 @@ struct type_vec2
 };
 
 struct type_vec2 type_vec2_add(struct type_vec2 a, struct type_vec2 b);
-struct type_vec2 type_vec2_sub(struct type_vec2 a, struct type_vec2 b); /* ret = a - b */
+struct type_vec2 type_vec2_sub(struct type_vec2 a, struct type_vec2 b); // ret = a - b
 struct type_vec2 type_vec2_mul_v(struct type_vec2 a, struct type_vec2 b);
 struct type_vec2 type_vec2_mul_s(struct type_vec2 a, float s);
 float type_vec2_magnitude(struct type_vec2 a);
@@ -54,7 +57,7 @@ struct type_vec3
 };
 
 struct type_vec3 type_vec3_add(struct type_vec3 a, struct type_vec3 b);
-struct type_vec3 type_vec3_sub(struct type_vec3 a, struct type_vec3 b); /* ret = a - b */
+struct type_vec3 type_vec3_sub(struct type_vec3 a, struct type_vec3 b); // ret = a - b
 struct type_vec3 type_vec3_mul_v(struct type_vec3 a, struct type_vec3 b);
 struct type_vec3 type_vec3_mul_s(struct type_vec3 a, float s);
 float type_vec3_magnitude(struct type_vec3 a);
@@ -78,7 +81,7 @@ struct type_vec4
 };
 
 struct type_vec4 type_vec4_add(struct type_vec4 a, struct type_vec4 b);
-struct type_vec4 type_vec4_sub(struct type_vec4 a, struct type_vec4 b); /* ret = a - b */
+struct type_vec4 type_vec4_sub(struct type_vec4 a, struct type_vec4 b); // ret = a - b
 struct type_vec4 type_vec4_mul_v(struct type_vec4 a, struct type_vec4 b);
 struct type_vec4 type_vec4_mul_s(struct type_vec4 a, float s);
 float type_vec4_magnitude(struct type_vec4 a);

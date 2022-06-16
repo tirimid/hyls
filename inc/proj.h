@@ -1,3 +1,6 @@
+// Copyright (c) 2022 Dmitrii Fedorin
+// This code is licensed under an MIT license. Check LICENSE for details.
+
 #ifndef PROJ_H__
 #define PROJ_H__
 
@@ -16,9 +19,8 @@ struct proj
     float rad;
 };
 
-/* an individual `proj_group` should be created for friendly and enemy projectiles
- * this is a system which should be faster than simply having a `bool friendly` field
- */
+// an individual `proj_group` should be created for friendly and enemy projectiles
+// this is a system which should be faster than simply having a `bool friendly` field
 struct proj_group
 {
     struct proj *projs;

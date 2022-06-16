@@ -1,3 +1,6 @@
+// Copyright (c) 2022 Dmitrii Fedorin
+// This code is licensed under an MIT license. Check LICENSE for details.
+
 #ifndef CHOREO_H__
 #define CHOREO_H__
 
@@ -46,7 +49,7 @@ void choreo_destroy(struct choreo *choreo);
 void choreo_update(struct choreo *choreo, struct enemy_group *enemies, struct proj_group *enemy_projs,
                    struct proj_group *friendly_projs, struct player *player, struct map *map, struct type_vec2 wnd_size);
 
-void choreo_add_event(struct choreo *choreo, const struct choreo_event *event); /* events added late will immediately execute */
+void choreo_add_event(struct choreo *choreo, const struct choreo_event *event); // events added late will immediately execute
 void choreo_remove_event(struct choreo *choreo, struct choreo_event *event);
 
 #endif

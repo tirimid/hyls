@@ -1,3 +1,6 @@
+// Copyright (c) 2022 Dmitrii Fedorin
+// This code is licensed under an MIT license. Check LICENSE for details.
+
 #ifndef TMDF_H__
 #define TMDF_H__
 
@@ -52,7 +55,7 @@ struct tmdf_dict
 struct tmdf_dict tmdf_dict_create(int max_cat_cnt);
 void tmdf_dict_destroy(struct tmdf_dict *dict);
 
-void tmdf_dict_print(const struct tmdf_dict *dict); /* nice tree-like way of displaying tmdf dictionary */
+void tmdf_dict_print(const struct tmdf_dict *dict); // nice tree-like way of displaying tmdf dictionary
 size_t tmdf_dict_size(const struct tmdf_dict *dict);
 size_t tmdf_dict_max_size(const struct tmdf_dict *dict);
 
