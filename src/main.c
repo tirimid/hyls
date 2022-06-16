@@ -7,7 +7,7 @@
 #include "map.h"
 #include "enemy.h"
 #include "choreo.h"
-#include "tmdf.h"
+#include "tmlex.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -21,8 +21,19 @@ static void exit_clean(void)
     UTIL_PRINT_LOG("exiting and cleaning");
 }
 
+static void test_tmdf(void)
+{
+    struct tmlex_token toks[128];
+    int tok_cnt;
+    tmlex_lex(toks, &tok_cnt, 128, "hello world", 11);
+    tmlex_print_tokens(toks, tok_cnt);
+}
+
 int main(void)
 {
+    test_tmdf();
+    return 0;
+    
     atexit(exit_clean);
     
     SDL_Init(SDL_INIT_EVERYTHING);

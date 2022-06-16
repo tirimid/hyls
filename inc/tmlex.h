@@ -34,11 +34,12 @@ struct tmlex_token
     {
         char *str;
         float num;
+        char *iden;
     } val;
 };
 
 void tmlex_lex(struct tmlex_token out_toks[], int *out_tok_cnt, int max_tok_cnt, const char *src, size_t src_len);
-void tmlex_print_toks(const struct tmlex_token toks[], int tok_cnt);
-void tmlex_free_toks(struct tmlex_token toks[], int tok_cnt);
+void tmlex_print_tokens(const struct tmlex_token toks[], int tok_cnt);
+void tmlex_free_tokens(struct tmlex_token toks[], int tok_cnt);
 
 #endif
