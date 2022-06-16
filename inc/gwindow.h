@@ -1,3 +1,6 @@
+// Copyright (c) 2022 Dmitrii Fedorin
+// This code is licensed under an MIT license. Check LICENSE for details.
+
 #ifndef GWINDOW_H__
 #define GWINDOW_H__
 
@@ -11,8 +14,8 @@ struct gwindow
     SDL_Renderer *rend;
 };
 
-struct gwindow gwindow_create(int wnd_width, int wnd_height, const char *wnd_title); /* does not automatically call SDL_Init() */
-void gwindow_destroy(struct gwindow *gwnd); /* does not automatically call SDL_Quit() */
+struct gwindow gwindow_create(int wnd_width, int wnd_height, const char *wnd_title); // does not automatically call SDL_Init()
+void gwindow_destroy(struct gwindow *gwnd); // does not automatically call SDL_Quit()
 
 void gwindow_draw_pixel(struct gwindow *gwnd, int x, int y, struct type_color col);
 void gwindow_draw_line(struct gwindow *gwnd, int x0, int y0, int x1, int y1, struct type_color col);

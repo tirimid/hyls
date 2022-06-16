@@ -1,3 +1,6 @@
+// Copyright (c) 2022 Dmitrii Fedorin
+// This code is licensed under an MIT license. Check LICENSE for details.
+
 #ifndef PLAYER_H__
 #define PLAYER_H__
 

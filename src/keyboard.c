@@ -1,3 +1,6 @@
+// Copyright (c) 2022 Dmitrii Fedorin
+// This code is licensed under an MIT license. Check LICENSE for details.
+
 #include "keyboard.h"
 
 #include "util.h"
@@ -65,7 +68,7 @@ bool keyboard_key_pressed(const struct keyboard *kbd, SDL_Keycode key)
     return kbd->pv_key_states[key];
 }
 
-/* easier handler for events */
+// easier handler for events
 void keyboard_update(struct keyboard *kbd, const SDL_Event *key_event)
 {
     SDL_Keycode keycode = SDL_GetKeyFromScancode(key_event->key.keysym.scancode);

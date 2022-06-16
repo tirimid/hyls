@@ -1,3 +1,6 @@
+// Copyright (c) 2022 Dmitrii Fedorin
+// This code is licensed under an MIT license. Check LICENSE for details.
+
 #ifndef KEYBOARD_H__
 #define KEYBOARD_H__
 
@@ -34,7 +37,7 @@ void keyboard_destroy(struct keyboard *kbd);
 void keyboard_set_key_state(struct keyboard *kbd, SDL_Keycode key, bool state);
 bool keyboard_key_pressed(const struct keyboard *kbd, SDL_Keycode key);
 
-void keyboard_update(struct keyboard *kbd, const SDL_Event *key_event); /* easier handler for events */
+void keyboard_update(struct keyboard *kbd, const SDL_Event *key_event); // easier handler for events
 
 void keyboard_add_axis(struct keyboard *kbd, struct keyboard_axis axis);
 void keyboard_remove_axis_a(struct keyboard *kbd, struct keyboard_axis *axis);

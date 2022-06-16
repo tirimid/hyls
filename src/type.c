@@ -1,3 +1,6 @@
+// Copyright (c) 2022 Dmitrii Fedorin
+// This code is licensed under an MIT license. Check LICENSE for details.
+
 #include "type.h"
 
 #include "hm.h"
@@ -13,7 +16,7 @@ struct type_vec2 type_vec2_add(struct type_vec2 a, struct type_vec2 b)
     };
 }
 
-/* ret = a - b */
+// ret = a - b
 struct type_vec2 type_vec2_sub(struct type_vec2 a, struct type_vec2 b)
 {
     return (struct type_vec2)
@@ -79,7 +82,7 @@ struct type_vec3 type_vec3_add(struct type_vec3 a, struct type_vec3 b)
     };
 }
 
-/* ret = a - b */
+// ret = a - b
 struct type_vec3 type_vec3_sub(struct type_vec3 a, struct type_vec3 b)
 {
     return (struct type_vec3)
@@ -151,7 +154,7 @@ struct type_vec4 type_vec4_add(struct type_vec4 a, struct type_vec4 b)
     };
 }
 
-/* ret = a - b */
+// ret = a - b
 struct type_vec4 type_vec4_sub(struct type_vec4 a, struct type_vec4 b)
 {
     return (struct type_vec4)

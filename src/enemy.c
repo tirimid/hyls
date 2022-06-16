@@ -1,3 +1,6 @@
+// Copyright (c) 2022 Dmitrii Fedorin
+// This code is licensed under an MIT license. Check LICENSE for details.
+
 #include "enemy.h"
 
 #include "util.h"
@@ -58,7 +61,7 @@ void enemy_group_update(struct enemy_group *enemy_group, struct type_vec2 player
             continue;
         }
 
-        /* enemy damaged when hit with friendly projectile */
+        // enemy damaged when hit with friendly projectile
         for (int j = 0; j < friendly_projs->proj_cnt; ++j)
         {
             struct proj *proj = &friendly_projs->projs[j];

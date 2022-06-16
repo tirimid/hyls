@@ -1,3 +1,6 @@
+// Copyright (c) 2022 Dmitrii Fedorin
+// This code is licensed under an MIT license. Check LICENSE for details.
+
 #include "choreo.h"
 
 #include "util.h"
@@ -53,7 +56,7 @@ void choreo_update(struct choreo *choreo, struct enemy_group *enemies, struct pr
     ++choreo->elapsed_ticks;
 }
 
-/* events added late will immediately execute */
+// events added late will immediately execute
 void choreo_add_event(struct choreo *choreo, const struct choreo_event *event)
 {
     if (choreo->event_cnt >= choreo->pv_max_event_cnt)

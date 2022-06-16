@@ -1,3 +1,6 @@
+// Copyright (c) 2022 Dmitrii Fedorin
+// This code is licensed under an MIT license. Check LICENSE for details.
+
 #include "tmdf.h"
 
 #include "util.h"
@@ -39,7 +42,7 @@ static void print_list_item(const struct tmdf_item *item)
     printf("\n");
 }
 
-/* nice tree-like way of displaying tmdf dictionary */
+// nice tree-like way of displaying tmdf dictionary
 void tmdf_dict_print(const struct tmdf_dict *dict)
 {
     for (int i = 0; i < dict->cat_cnt; ++i)
@@ -86,31 +89,6 @@ size_t tmdf_dict_max_size(const struct tmdf_dict *dict)
     return total_max_size;
 }
 
-enum token_type
-{
-    TOKEN_TYPE_COLON,       /* : */
-    TOKEN_TYPE_SEMICOLON,   /* ; */
-    TOKEN_TYPE_EQUALS,      /* = */
-    TOKEN_TYPE_BRACE_LEFT,  /* { */
-    TOKEN_TYPE_BRACE_RIGHT, /* } */
-
-    TOKEN_TYPE_KEYWORD_CATEGORY,
-    TOKEN_TYPE_KEYWORD_LIST,
-    TOKEN_TYPE_KEYWORD_ITEM,
-    TOKEN_TYPE_KEYWORD_NUM,
-    TOKEN_TYPE_KEYWORD_STR,
-
-    TOKEN_TYPE_LITERAL_STRING,
-    TOKEN_TYPE_LITERAL_NUMBER,
-    TOKEN_TYPE_IDENTIFIER,
-};
-
-struct token
-{
-    enum token_type type;
-    char *val;
-};
-
 void tmdf_parse_file(struct tmdf_dict *dst_dict, FILE *file)
 {
     fseek(file, 0, SEEK_END);
@@ -120,7 +98,7 @@ void tmdf_parse_file(struct tmdf_dict *dst_dict, FILE *file)
     char *src      = malloc(file_size + 1);
     src[file_size] = '\0';
     fread(src, file_size, 1, file);
-
+    
     free(src);
 }
 

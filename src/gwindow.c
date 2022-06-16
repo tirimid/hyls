@@ -1,8 +1,11 @@
+// Copyright (c) 2022 Dmitrii Fedorin
+// This code is licensed under an MIT license. Check LICENSE for details.
+
 #include "gwindow.h"
 
 #include <stddef.h>
 
-/* does not automatically call SDL_Init() */
+// does not automatically call SDL_Init()
 struct gwindow gwindow_create(int wnd_width, int wnd_height, const char *wnd_title)
 {
     struct gwindow gwnd;
@@ -13,7 +16,7 @@ struct gwindow gwindow_create(int wnd_width, int wnd_height, const char *wnd_tit
     return gwnd;
 }
 
-/* does not automatically call SDL_Quit() */
+// does not automatically call SDL_Quit()
 void gwindow_destroy(struct gwindow *gwnd)
 {
     SDL_DestroyRenderer(gwnd->rend);
