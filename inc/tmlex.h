@@ -32,9 +32,8 @@ struct tmlex_token
     
     union
     {
-        char *str;
+        char *text;
         float num;
-        char *iden;
     } val;
 };
 

@@ -25,8 +25,21 @@ static void test_tmdf(void)
 {
     struct tmlex_token toks[128];
     int tok_cnt;
-    tmlex_lex(toks, &tok_cnt, 128, "hello world", 11);
+    
+    const char *src =
+        "category hello"
+        "{"
+        "    list bruh"
+        "    {"
+        "        item num pos_x = 34;"
+        "        item num pos_y = 123.45;"
+        "        item str name = \"gamer gaming time\";"
+        "    }"
+        "}";
+    tmlex_lex(toks, &tok_cnt, 128, src, strlen(src));
     tmlex_print_tokens(toks, tok_cnt);
+    
+    tmlex_free_tokens(toks, tok_cnt);
 }
 
 int main(void)
