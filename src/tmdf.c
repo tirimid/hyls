@@ -89,17 +89,8 @@ size_t tmdf_dict_max_size(const struct tmdf_dict *dict)
     return total_max_size;
 }
 
-void tmdf_parse_file(struct tmdf_dict *dst_dict, FILE *file)
+void tmdf_dict_parse_file(struct tmdf_dict *dict, const struct tmlex_token toks[], int tok_cnt)
 {
-    fseek(file, 0, SEEK_END);
-    size_t file_size = ftell(file);
-    fseek(file, 0, SEEK_SET);
-
-    char *src      = malloc(file_size + 1);
-    src[file_size] = '\0';
-    fread(src, file_size, 1, file);
-    
-    free(src);
 }
 
 const struct tmdf_category *tmdf_dict_category(const struct tmdf_dict *dict, const char *cat_key)

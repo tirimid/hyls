@@ -44,8 +44,10 @@ static void test_tmdf(void)
 
 int main(void)
 {
+#if 0
     test_tmdf();
     return 0;
+#endif
     
     atexit(exit_clean);
     

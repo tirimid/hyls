@@ -4,6 +4,8 @@
 #ifndef TMDF_H__
 #define TMDF_H__
 
+#include "tmlex.h"
+
 #include <stdint.h>
 #include <stdio.h>
 #include <stddef.h>
@@ -59,7 +61,7 @@ void tmdf_dict_print(const struct tmdf_dict *dict); // nice tree-like way of dis
 size_t tmdf_dict_size(const struct tmdf_dict *dict);
 size_t tmdf_dict_max_size(const struct tmdf_dict *dict);
 
-void tmdf_parse_file(struct tmdf_dict *dst_dict, FILE *file);
+void tmdf_dict_parse_file(struct tmdf_dict *dict, const struct tmlex_token toks[], int tok_cnt);
 
 const struct tmdf_category *tmdf_dict_category(const struct tmdf_dict *dict, const char *cat_key);
 struct tmdf_category *tmdf_dict_add_category(struct tmdf_dict *dict, const char *key, int max_list_cnt);
