@@ -89,8 +89,101 @@ size_t tmdf_dict_max_size(const struct tmdf_dict *dict)
     return total_max_size;
 }
 
-void tmdf_dict_parse_file(struct tmdf_dict *dict, const struct tmlex_token toks[], int tok_cnt)
+static inline const struct tmlex_token *next_token(const struct tmlex_token toks[], int tok_cnt, int *tok_ind)
 {
+    ++*tok_ind;
+    return *tok_ind >= tok_cnt ? NULL : &toks[*tok_ind];
+}
+
+static const struct tmlex_token *expect_token(enum tmlex_token_type type, const struct tmlex_token toks[], int tok_cnt,
+                                              int *tok_ind)
+{
+    const struct tmlex_token *tok = next_token(toks, tok_cnt, tok_ind);
+    if (tok->type == type)
+        return tok;
+    else
+        UTIL_PRINT_ERRORF("tmdf expected token of type %d but found %d on line %d", type, tok->type, tok->line);
+}
+
+static void parse_list_tokens(struct tmdf_list *out_list, const struct tmlex_token toks[], int tok_cnt, int *tok_ind)
+{
+    const struct tmlex_token *tok = expect_token(TMLEX_TOKEN_TYPE_BRACE_LEFT, toks, tok_cnt, tok_ind);
+    for (; toks != NULL && tok->type != TMLEX_TOKEN_TYPE_BRACE_RIGHT; tok = next_token(toks, tok_cnt, tok_ind))
+    {
+        switch (tok->type)
+        {
+        case TMLEX_TOKEN_TYPE_KEYWORD_NUM:
+        {
+            const char *num_key = expect_token(TMLEX_TOKEN_TYPE_IDENTIFIER, toks, tok_cnt, tok_ind)->val.text;
+            expect_token(TMLEX_TOKEN_TYPE_EQUALS, toks, tok_cnt, tok_ind);
+            float num = expect_token(TMLEX_TOKEN_TYPE_LITERAL_NUMBER, toks, tok_cnt, tok_ind)->val.num;
+            tmdf_list_add_item_n(out_list, num_key, 0, num);
+            expect_token(TMLEX_TOKEN_TYPE_SEMICOLON, toks, tok_cnt, tok_ind);
+            
+            break;
+        }
+        case TMLEX_TOKEN_TYPE_KEYWORD_STR:
+        {
+            const char *str_key = expect_token(TMLEX_TOKEN_TYPE_IDENTIFIER, toks, tok_cnt, tok_ind)->val.text;
+            expect_token(TMLEX_TOKEN_TYPE_EQUALS, toks, tok_cnt, tok_ind);
+            const char *str = expect_token(TMLEX_TOKEN_TYPE_LITERAL_STRING, toks, tok_cnt, tok_ind)->val.text;
+            tmdf_list_add_item_s(out_list, str_key, 0, str);
+            expect_token(TMLEX_TOKEN_TYPE_SEMICOLON, toks, tok_cnt, tok_ind);
+            
+            break;
+        }
+        default:
+            break;
+        }
+    }
+}
+
+static void parse_category_tokens(struct tmdf_category *out_cat, int max_item_cnt, const struct tmlex_token toks[], int tok_cnt,
+                                  int *tok_ind)
+{
+    const struct tmlex_token *tok = expect_token(TMLEX_TOKEN_TYPE_BRACE_LEFT, toks, tok_cnt, tok_ind);
+    for (; tok != NULL && tok->type != TMLEX_TOKEN_TYPE_BRACE_RIGHT; tok = next_token(toks, tok_cnt, tok_ind))
+    {
+        switch (tok->type)
+        {
+        case TMLEX_TOKEN_TYPE_KEYWORD_LIST:
+        {
+            const char       *list_key = expect_token(TMLEX_TOKEN_TYPE_IDENTIFIER, toks, tok_cnt, tok_ind)->val.text;
+            struct tmdf_list *list     = tmdf_category_add_list(out_cat, list_key, max_item_cnt);
+            parse_list_tokens(list, toks, tok_cnt, tok_ind);
+            
+            break;
+        }
+        default:
+            break;
+        }
+    }
+}
+
+// categories found in tokens will be added to existing categories
+// each new category will have a max list count of max_list_cnt
+// each new list will have a max item count of max_item_cnt
+void tmdf_dict_parse_tokens(struct tmdf_dict *out_dict, int max_list_cnt, int max_item_cnt, const struct tmlex_token toks[],
+                            int tok_cnt)
+{
+    int tok_ind = 0;
+    const struct tmlex_token *tok = tok_ind >= tok_cnt ? NULL : &toks[tok_ind];
+    for (; tok != NULL; tok = next_token(toks, tok_cnt, &tok_ind))
+    {
+        switch (tok->type)
+        {
+        case TMLEX_TOKEN_TYPE_KEYWORD_CATEGORY:
+        {
+            const char           *cat_key = expect_token(TMLEX_TOKEN_TYPE_IDENTIFIER, toks, tok_cnt, &tok_ind)->val.text;
+            struct tmdf_category *cat     = tmdf_dict_add_category(out_dict, cat_key, max_list_cnt);
+            parse_category_tokens(cat, max_item_cnt, toks, tok_cnt, &tok_ind);
+            
+            break;
+        }
+        default:
+            break;
+        }
+    }
 }
 
 const struct tmdf_category *tmdf_dict_category(const struct tmdf_dict *dict, const char *cat_key)
@@ -247,7 +340,7 @@ void tmdf_list_remove_item(struct tmdf_list *list, struct tmdf_item *item)
     if ((uintptr_t)item < list_items_start || (uintptr_t)item >= list_items_end)
         UTIL_PRINT_ERROR("tried removing nonexistant tmdf item");
 
-    free(list->key);
+    free(item->key);
     if (item->type == TMDF_ITEM_TYPE_STRING)
         free(item->val.str);
 

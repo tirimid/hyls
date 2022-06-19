@@ -143,11 +143,6 @@ void tmlex_lex(struct tmlex_token out_toks[], int *out_tok_cnt, int max_tok_cnt,
                 free(tok->val.text);
                 tok->type = TMLEX_TOKEN_TYPE_KEYWORD_LIST;
             }
-            else if (strcmp(tok->val.text, "item") == 0)
-            {
-                free(tok->val.text);
-                tok->type = TMLEX_TOKEN_TYPE_KEYWORD_ITEM;
-            }
             else if (strcmp(tok->val.text, "num") == 0)
             {
                 free(tok->val.text);
@@ -192,9 +187,6 @@ void tmlex_print_tokens(const struct tmlex_token toks[], int tok_cnt)
             break;
         case TMLEX_TOKEN_TYPE_KEYWORD_LIST:
             printf("kwlist\n");
-            break;
-        case TMLEX_TOKEN_TYPE_KEYWORD_ITEM:
-            printf("kwitem\n");
             break;
         case TMLEX_TOKEN_TYPE_KEYWORD_NUM:
             printf("kwnum\n");

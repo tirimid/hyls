@@ -16,7 +16,6 @@ enum tmlex_token_type
 
     TMLEX_TOKEN_TYPE_KEYWORD_CATEGORY, // category
     TMLEX_TOKEN_TYPE_KEYWORD_LIST,     // list
-    TMLEX_TOKEN_TYPE_KEYWORD_ITEM,     // item
     TMLEX_TOKEN_TYPE_KEYWORD_NUM,      // num
     TMLEX_TOKEN_TYPE_KEYWORD_STR,      // str
 

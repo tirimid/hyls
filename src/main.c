@@ -8,6 +8,7 @@
 #include "enemy.h"
 #include "choreo.h"
 #include "tmlex.h"
+#include "tmdf.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -27,27 +28,38 @@ static void test_tmdf(void)
     int tok_cnt;
     
     const char *src =
-        "category hello"
-        "{"
-        "    list bruh"
-        "    {"
-        "        item num pos_x = 34;"
-        "        item num pos_y = 123.45;"
-        "        item str name = \"gamer gaming time\";"
-        "    }"
-        "}";
+        "category hello\n"
+        "{\n"
+        "    list bruh\n"
+        "    {\n"
+        "        num pos_x = 34;\n"
+        "        num pos_y = 123.45;\n"
+        "        str name  = \"gamer gaming time\";\n"
+        "    }\n"
+        "    list another\n"
+        "    {\n"
+        "        num pos_x = 500.23;\n"
+        "        num pos_y = 9;\n"
+        "        str name  = \"the gaming stuff\";\n"
+        "    }\n"
+        "}\n"
+        "category another_cat\n"
+        "{\n"
+        "}\n";
     tmlex_lex(toks, &tok_cnt, 128, src, strlen(src));
-    tmlex_print_tokens(toks, tok_cnt);
-    
+
+    struct tmdf_dict dict = tmdf_dict_create(16);
+    tmdf_dict_parse_tokens(&dict, 64, 32, toks, tok_cnt);
     tmlex_free_tokens(toks, tok_cnt);
+
+    tmdf_dict_print(&dict);
+    tmdf_dict_destroy(&dict);
 }
 
 int main(void)
 {
-#if 0
     test_tmdf();
     return 0;
-#endif
     
     atexit(exit_clean);
     
